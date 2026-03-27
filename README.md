@@ -1,20 +1,44 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# 📊 StockSmart
 
-# Run and deploy your AI Studio app
+StockSmart is a comprehensive stock analysis and learning platform designed to help users understand the stock market, analyze equities, and make data-driven investment decisions.
 
-This contains everything you need to run your app locally.
+---
 
-View your app in AI Studio: https://ai.studio/apps/e936fbca-b464-495a-bc08-277b5bccc9d0
+## 🚀 Features
 
-## Run Locally
+- 📈 **Stock Analysis**
+  - Real-time and historical stock data
+  - Technical indicators and trend analysis
+  - Company performance insights
 
-**Prerequisites:**  Node.js
+- 🌍 **Market Analysis**
+  - Overview of market trends
+  - Sector-wise insights
+  - Global and local market tracking
 
+- 🎓 **Learning Hub**
+  - Beginner-friendly stock market concepts
+  - Investment strategies and guides
+  - Educational resources for all levels
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+- 🤖 **AI-Powered Insights** *(if applicable)*
+  - Smart recommendations
+  - Automated analysis using AI models
+
+---
+
+## 🛠️ Tech Stack
+
+- Frontend: (React / HTML / Streamlit / etc.)
+- Backend: (Node.js / FastAPI / Django / etc.)
+- AI Integration: (Google AI Studio / Gemini API)
+- Database: (MongoDB / PostgreSQL / etc.)
+- Deployment: Docker + AWS (ECS/Fargate)
+
+---
+
+## 📦 Installation
+
+```bash
+git clone https://github.com/your-username/stocksmart.git
+cd stocksmart
