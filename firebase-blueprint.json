@@ -1,0 +1,135 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Core user profile information.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Firebase Auth UID" },
+        "name": { "type": "string", "description": "Full name" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["customer", "student"] },
+        "age": { "type": "number" },
+        "phoneNumber": { "type": "string" },
+        "address": { "type": "string" },
+        "country": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "name", "email", "role"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Extended profile for investors.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Reference to User ID" },
+        "balanceAmount": { "type": "number", "description": "Available cash balance" },
+        "riskLevel": { "type": "string", "enum": ["low", "moderate", "high"] }
+      },
+      "required": ["userId", "balanceAmount", "riskLevel"]
+    },
+    "Student": {
+      "title": "Student",
+      "description": "Extended profile for learners.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string", "description": "Reference to User ID" },
+        "progressLevel": { "type": "number", "description": "Overall learning progress" }
+      },
+      "required": ["userId", "progressLevel"]
+    },
+    "Stock": {
+      "title": "Stock",
+      "description": "Stock market asset information.",
+      "type": "object",
+      "properties": {
+        "symbol": { "type": "string" },
+        "name": { "type": "string" },
+        "market": { "type": "string" },
+        "currentPrice": { "type": "number" },
+        "change": { "type": "number" }
+      },
+      "required": ["symbol", "name", "currentPrice"]
+    },
+    "Portfolio": {
+      "title": "Portfolio",
+      "description": "User investment portfolio.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "totalValue": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "components": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": { "type": "string" },
+              "name": { "type": "string" },
+              "value": { "type": "number" },
+              "description": { "type": "string" }
+            }
+          }
+        }
+      },
+      "required": ["id", "userId", "name", "components"]
+    },
+    "Prediction": {
+      "title": "Prediction",
+      "description": "AI-generated stock predictions.",
+      "type": "object",
+      "properties": {
+        "stockSymbol": { "type": "string" },
+        "predictedPrice": { "type": "number" },
+        "confidenceScore": { "type": "number" },
+        "recommendation": { "type": "string", "enum": ["BUY", "HOLD", "SELL"] },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["stockSymbol", "predictedPrice", "confidenceScore"]
+    },
+    "LearningContent": {
+      "title": "LearningContent",
+      "description": "Educational modules for students.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "resourceLink": { "type": "string", "format": "uri" },
+        "order": { "type": "integer" }
+      },
+      "required": ["title", "description"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User profile data."
+    },
+    "/customers/{userId}": {
+      "schema": "Customer",
+      "description": "Investor-specific data."
+    },
+    "/students/{userId}": {
+      "schema": "Student",
+      "description": "Learner-specific data."
+    },
+    "/stocks/{symbol}": {
+      "schema": "Stock",
+      "description": "Market data."
+    },
+    "/portfolios/{portfolioId}": {
+      "schema": "Portfolio",
+      "description": "User holdings."
+    },
+    "/predictions/{predictionId}": {
+      "schema": "Prediction",
+      "description": "AI predictions."
+    },
+    "/learning_content/{contentId}": {
+      "schema": "LearningContent",
+      "description": "Curriculum data."
+    }
+  }
+}
