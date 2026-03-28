@@ -25,3 +25,6 @@ RUN npm install --only=production --legacy-peer-deps
 EXPOSE 5000
 
 CMD ["node", "dist/server.js"]
+
+
+
