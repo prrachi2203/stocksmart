@@ -3,9 +3,8 @@ FROM node:18 AS builder
 
 WORKDIR /app
 
-RUN npm install -g npm@latest
-
 COPY package*.json ./
+
 RUN npm install --legacy-peer-deps
 
 COPY . .
@@ -25,6 +24,3 @@ RUN npm install --only=production --legacy-peer-deps
 EXPOSE 5000
 
 CMD ["node", "dist/server.js"]
-
-
-
