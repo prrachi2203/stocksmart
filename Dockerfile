@@ -7,10 +7,7 @@ RUN npm install
 
 COPY . .
 
-# Build with API key argument
-ARG GEMINI_API_KEY=build_placeholder
-ENV GEMINI_API_KEY=$GEMINI_API_KEY
-
+# Build without needing API key
 RUN npm run build
 
 # Production stage
