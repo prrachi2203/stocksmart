@@ -1,16 +1,27 @@
-FROM node:20
+# Build stage
+FROM node:20 AS builder
 
 WORKDIR /app
 
 COPY package*.json ./
 
-# install ONLY production deps
-RUN npm install --omit=dev
+# Install ALL deps (including dev)
+RUN npm install
 
 COPY . .
 
-# build (uses dev deps already in repo build stage)
 RUN npm run build
+
+# Production stage
+FROM node:20-slim
+
+WORKDIR /app
+
+COPY --from=builder /app/dist ./dist
+COPY package*.json ./
+
+# Install only production deps
+RUN npm install --omit=dev
 
 EXPOSE 5000
 
