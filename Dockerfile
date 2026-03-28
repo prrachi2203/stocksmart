@@ -1,21 +1,27 @@
-# Multi-stage build for production
-FROM node:20-slim AS builder
+# Build stage
+FROM node:18 AS builder
 
 WORKDIR /app
+
+RUN npm install -g npm@latest
+
 COPY package*.json ./
-RUN npm install
+RUN npm install --legacy-peer-deps
+
 COPY . .
+
 RUN npm run build
 
-# Final stage
-FROM node:20-slim
+# Production stage
+FROM node:18-slim
 
 WORKDIR /app
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/server.ts ./
-RUN npm install --production
-RUN npm install -g tsx
 
-EXPOSE 3000
-CMD ["npm", "run", "start"]
+COPY --from=builder /app/dist ./dist
+COPY package*.json ./
+
+RUN npm install --only=production --legacy-peer-deps
+
+EXPOSE 5000
+
+CMD ["node", "dist/server.js"]
