@@ -1,24 +1,25 @@
-# Build stage
-FROM node:20 AS builder
+# Build frontend
+FROM node:20 AS frontend
 
 WORKDIR /app
 
+COPY package*.json ./
+RUN npm install
+
 COPY . .
-
-# Install with relaxed rules
-RUN npm install --force
-
 RUN npm run build
 
-# Production stage
+# Backend runtime
 FROM node:20-slim
 
 WORKDIR /app
 
-COPY --from=builder /app/dist ./dist
-COPY package*.json ./
+# Copy built frontend
+COPY --from=frontend /app/dist ./dist
 
-RUN npm install --omit=dev --force
+# Install ONLY backend deps
+COPY package*.json ./
+RUN npm install --omit=dev
 
 EXPOSE 5000
 
