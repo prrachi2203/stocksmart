@@ -3,12 +3,10 @@ FROM node:20 AS builder
 
 WORKDIR /app
 
-COPY package*.json ./
-
-# Clean install (better for CI/CD)
-RUN npm ci || npm install --legacy-peer-deps
-
 COPY . .
+
+# Install with relaxed rules
+RUN npm install --force
 
 RUN npm run build
 
@@ -20,7 +18,7 @@ WORKDIR /app
 COPY --from=builder /app/dist ./dist
 COPY package*.json ./
 
-RUN npm ci --omit=dev || npm install --only=production --legacy-peer-deps
+RUN npm install --omit=dev --force
 
 EXPOSE 5000
 
