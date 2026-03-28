@@ -15,9 +15,23 @@ export default defineConfig(({mode}) => {
         '@': path.resolve(__dirname, '.'),
       },
     },
+    build: {
+      lib: {
+        entry: path.resolve(__dirname, 'src/main.tsx'),
+        name: 'StockSmart',
+        fileName: (format) => `stocksmart.${format}.js`,
+      },
+      rollupOptions: {
+        external: /^[a-z@]/, // Mark all node_modules as external
+        output: {
+          globals: {
+            react: 'React',
+            'react-dom': 'ReactDOM',
+          },
+        },
+      },
+    },
     server: {
-      // HMR is disabled in AI Studio via DISABLE_HMR env var.
-      // Do not modify—file watching is disabled to prevent flickering during agent edits.
       hmr: process.env.DISABLE_HMR !== 'true',
     },
   };
