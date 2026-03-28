@@ -1,25 +1,28 @@
-# Build frontend
-FROM node:20 AS frontend
+# Build stage
+FROM node:20 AS builder
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install
-
 COPY . .
+
+# Install only once
+RUN npm install --legacy-peer-deps
+
 RUN npm run build
 
-# Backend runtime
+# Runtime stage
 FROM node:20-slim
 
 WORKDIR /app
 
-# Copy built frontend
-COPY --from=frontend /app/dist ./dist
+# Copy only built output
+COPY --from=builder /app/dist ./dist
 
-# Install ONLY backend deps
-COPY package*.json ./
-RUN npm install --omit=dev
+# Minimal package.json (no heavy deps)
+COPY package.json .
+
+# Install ONLY runtime deps
+RUN npm install express
 
 EXPOSE 5000
 
