@@ -1,28 +1,20 @@
-# Build stage
-FROM node:20-alpine AS builder
+# ---------- BUILD STAGE ----------
+FROM node:20 AS builder
 WORKDIR /app
-
 COPY package*.json ./
 RUN npm install
-
 COPY . .
-
-# Build without needing API key
 RUN npm run build
 
-# Production stage
+# ---------- PRODUCTION STAGE ----------
 FROM node:20-alpine
 WORKDIR /app
-
 RUN apk add --no-cache dumb-init
-
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/server.ts ./
-
+COPY server.js ./
 RUN npm install --omit=dev
-
 EXPOSE 5000
-
 ENTRYPOINT ["dumb-init", "--"]
-CMD ["node", "dist/server.js"]
+CMD ["node", "server.js"]
+
